@@ -25,7 +25,7 @@ a { color: inherit; text-decoration: none; }
 button { font: inherit; border: 0; background: none; cursor: pointer; }
 h2, h3, h4 { font-weight: 500; }
 
-.page { min-width: 1440px; padding-bottom: 28px; }
+.page { padding-bottom: 28px; overflow-x: hidden; }
 
 /* ---------- Navbar ---------- */
 .navbar {
@@ -39,7 +39,8 @@ h2, h3, h4 { font-weight: 500; }
 .navbar__logo svg { flex-shrink: 0; }
 .navbar__logo { display: flex; align-items: center; gap: 6px; width: 174px; white-space: nowrap; }
 .navbar__logo span { font-size: 22px; font-weight: 800; letter-spacing: -0.3px; }
-.navbar__links { display: flex; align-items: center; margin-left: 31px; }
+.navbar__links { display: flex; align-items: center; margin-left: 31px; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.navbar__links::-webkit-scrollbar { display: none; }
 .navbar__links a {
   height: 52px;
   padding: 0 15px;
@@ -53,6 +54,7 @@ h2, h3, h4 { font-weight: 500; }
 .navbar__links a.is-active { background: var(--gold); color: #fff; }
 .navbar__more { padding: 0 8px !important; letter-spacing: 1px; font-weight: 700 !important; }
 .navbar__search {
+  flex-shrink: 0;
   margin-left: auto;
   width: 190px;
   height: 52px;
@@ -67,7 +69,7 @@ h2, h3, h4 { font-weight: 500; }
   font: 400 15px 'Inter', sans-serif; color: var(--text);
 }
 .navbar__search input::placeholder { color: #8a8a8a; }
-.navbar__user { display: flex; align-items: center; gap: 14px; margin-left: 30px; }
+.navbar__user { flex-shrink: 0; display: flex; align-items: center; gap: 14px; margin-left: 30px; }
 
 /* ---------- Layout ---------- */
 .dashboard {
@@ -75,19 +77,18 @@ h2, h3, h4 { font-weight: 500; }
   display: grid;
   grid-template-columns: minmax(0, 1fr) var(--side);
   column-gap: var(--gap-x);
-  align-items: start;
+  align-items: stretch;
 }
 .dashboard__main {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-template-rows: 125px 416px 245px 160px 349px;
+  grid-template-rows: 125px auto auto 160px auto;
   gap: var(--gap-y) var(--gap-x);
 }
 .dashboard__side {
   display: flex;
   flex-direction: column;
   gap: 13px;
-  height: 1343px;
 }
 
 .card {
@@ -118,18 +119,19 @@ h2, h3, h4 { font-weight: 500; }
 .pill--down { background: #fde4e8; color: #e5304a; }
 
 /* ---------- Chart cards ---------- */
+.chart-card { aspect-ratio: 669 / 416; }
 .chart-card--lead { grid-column: 1 / 3; grid-row: 2; }
 .chart-card--stage { grid-column: 3 / 5; grid-row: 2; }
 .chart-card > h2, .sales > h2 {
   position: absolute; left: 28px; top: 16px; z-index: 1; font-size: 22px;
 }
-.chart-svg { position: absolute; left: 0; top: 0; display: block; font-family: 'Inter', sans-serif; }
+.chart-svg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; font-family: 'Inter', sans-serif; }
 .legend { display: flex; align-items: center; gap: 28px; font-size: 15px; color: #333; }
 .legend__item { display: inline-flex; align-items: center; gap: 8px; }
 .legend__item i { width: 20px; height: 20px; border-radius: 50%; display: block; }
 .chart-card__legend { position: absolute; left: 24px; bottom: 15px; }
 
-.sales { grid-column: 1 / 3; grid-row: 3; }
+.sales { grid-column: 1 / 3; grid-row: 3; aspect-ratio: 669 / 245; }
 .sales__legend { position: absolute; left: 27px; top: 214px; }
 .sales__legend .legend { gap: 28px; font-size: 15px; }
 .sales__legend .legend__item i { width: 20px; height: 20px; }
@@ -166,8 +168,9 @@ h2, h3, h4 { font-weight: 500; }
 .avatar-stack__count { background: #dfe1e4; color: #333; font-weight: 500; }
 
 /* ---------- Active listing ---------- */
-.listing { grid-column: 1 / 4; grid-row: 5; padding: 16px 28px; }
-.listing table { width: 968px; margin-top: 17px; border-collapse: collapse; table-layout: fixed; }
+.listing { grid-column: 1 / 4; grid-row: 5; padding: 16px 28px; min-height: 349px; }
+.listing__scroll { overflow-x: auto; }
+.listing table { width: 100%; min-width: 968px; margin-top: 17px; border-collapse: collapse; table-layout: fixed; }
 .listing th {
   height: 41px; background: #f7f8fa; text-align: left; font-size: 17px; font-weight: 500;
   padding-left: 12px;
@@ -211,7 +214,7 @@ h2, h3, h4 { font-weight: 500; }
 }
 
 /* ---------- Sidebar: reminder ---------- */
-.reminder { height: 463px; padding: 20px 18px; flex-shrink: 0; }
+.reminder { min-height: 463px; padding: 20px 18px; flex-shrink: 0; }
 .reminder > h2 { font-size: 22px; padding-left: 4px; line-height: 28px; margin-top: -1px; }
 .reminder__follow {
   margin-top: 20px; height: 100px; border-radius: 12px; background: #f8f3e3; padding: 12px;
@@ -231,7 +234,7 @@ h2, h3, h4 { font-weight: 500; }
 .calendar__nav { display: flex; gap: 38px; margin-right: 6px; }
 .calendar__nav button { display: grid; place-items: center; }
 .calendar__grid {
-  display: grid; grid-template-columns: repeat(7, 52.8px); margin-left: -3px;
+  display: grid; grid-template-columns: repeat(7, minmax(0, 52.8px)); margin-left: -3px;
   font-size: 15px; font-weight: 500;
 }
 .calendar__dow { height: 28px; margin-top: 6px; display: grid; place-items: center; font-size: 15px; }
@@ -246,3 +249,55 @@ h2, h3, h4 { font-weight: 500; }
 .schedule__item { border-left: 2px solid; border-radius: 6px; padding-left: 12px; margin-bottom: 38px; }
 .schedule__item h4 { font-size: 17px; line-height: 21px; font-weight: 500; }
 .schedule__item p { font-size: 14px; line-height: 18px; color: var(--muted); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1500px) {
+  .stat__top { gap: 14px; }
+  .stat__top h3 { font-size: 19px; }
+  .stat__bottom { gap: 12px; }
+  .stat__bottom strong { font-size: 26px; }
+  .calendar__head h3 { font-size: 30px; }
+}
+
+@media (max-width: 1279px) {
+  .dashboard { grid-template-columns: minmax(0, 1fr); row-gap: var(--gap-y); }
+  .dashboard__side { flex-direction: row; align-items: stretch; }
+  .reminder, .cal-card { flex: 1 1 0; min-width: 0; }
+  .cal-card { padding-bottom: 20px; }
+  .calendar__grid { margin-left: auto; margin-right: auto; }
+  .navbar__links a { font-size: 15px; padding: 0 11px; }
+  .navbar__search { display: none; }
+  .navbar__user { margin-left: auto; }
+  .dashboard__side { align-items: flex-start; }
+}
+
+@media (max-width: 899px) {
+  :root { --pad: 16px; }
+  .navbar { height: 68px; }
+  .navbar__logo { width: auto; }
+  .navbar__logo span { font-size: 18px; }
+  .navbar__search { display: none; }
+  .navbar__user { margin-left: auto; }
+  .navbar__links { display: none; }
+  .dashboard__main { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; grid-auto-rows: auto; }
+  .stat { grid-column: auto; }
+  .chart-card--lead, .chart-card--stage, .sales, .pipeline, .closed, .listing, .contacts {
+    grid-column: 1 / -1; grid-row: auto;
+  }
+  .pipeline { padding-bottom: 24px; }
+  .dashboard__side { flex-direction: column; }
+}
+
+@media (max-width: 599px) {
+  .dashboard__main { grid-template-columns: minmax(0, 1fr); }
+  .stat__top h3 { font-size: 20px; }
+  .stat__bottom strong { font-size: 28px; }
+  .chart-card, .sales { aspect-ratio: auto; overflow-x: auto; padding-top: 16px; }
+  .chart-card > h2, .sales > h2 { position: static; padding: 0 20px; }
+  .chart-svg { position: relative; width: 600px; height: auto; min-width: 600px; }
+  .chart-card__legend, .sales__legend { position: static; padding: 0 20px 16px; }
+  .listing, .contacts { padding-left: 16px; padding-right: 16px; }
+  .reminder, .cal-card { flex: none; }
+  .calendar__head h3 { font-size: 26px; }
+  .calendar__grid { margin-left: 0; justify-content: center; }
+}

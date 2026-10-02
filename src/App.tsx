@@ -108,7 +108,7 @@ function ActiveListing() {
   return (
     <section className="card listing">
       <h2>Active Listing</h2>
-      <table>
+      <div className="listing__scroll"><table>
         <thead>
           <tr>
             <th>Property</th><th>Type</th><th>Units</th><th>Price</th>
@@ -133,7 +133,7 @@ function ActiveListing() {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table></div>
     </section>
   );
 }
